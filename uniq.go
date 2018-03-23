@@ -2,20 +2,25 @@ package iter
 
 import "sort"
 
-func SortedUniqueInts(values []int) []int {
-	var res = UniqueInts(values)
+func SortedIntSet(values *[]int) []int {
+	var res = MakeUnique(values)
 	sort.Ints(res)
 	return res
 }
 
-func UniqueInts(values []int) []int {
+func MakeUnique(values *[]int) []int {
 	var dict = make(map[int]struct{})
-	for _, v := range values {
+	var ints = *values
+	for _, v := range ints {
 		dict[v] = struct{}{}
 	}
-	var res = make([]int, 0, len(dict))
+	var n = len(dict)
+	ints = ints[0:n]
+	var i = 0
 	for k := range dict {
-		res = append(res, k)
+		ints[i] = k
+		i += 1
 	}
-	return res
+	*values = ints
+	return ints
 }
