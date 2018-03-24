@@ -2,12 +2,14 @@ package iter
 
 import "sort"
 
+//Sort in place slice of ints as unique values
 func SortedIntSet(values *[]int) []int {
 	var res = MakeUnique(values)
 	sort.Ints(res)
 	return res
 }
 
+//Mkae unique slice of ints
 func MakeUnique(values *[]int) []int {
 	var dict = make(map[int]struct{})
 	var ints = *values

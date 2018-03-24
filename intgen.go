@@ -49,7 +49,6 @@ func (gen *Generator) updateNext(v int) {
 }
 
 func (gen *Generator) Val() int {
-
     gen.v += gen.step
 
     if (gen.step > 0  && gen.v >= gen.stop) ||
