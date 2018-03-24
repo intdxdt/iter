@@ -3,26 +3,23 @@ package iter
 import "sort"
 
 //Sort in place slice of ints as unique values
-func SortedIntSet(values *[]int) []int {
-	var res = MakeUnique(values)
-	sort.Ints(res)
-	return res
+func SortedIntsSet(values []int) []int {
+	var set = UniqueInts(values)
+	sort.Ints(set)
+	return set
 }
 
 //Mkae unique slice of ints
-func MakeUnique(values *[]int) []int {
-	var dict = make(map[int]struct{})
-	var ints = *values
-	for _, v := range ints {
+func UniqueInts(values []int) []int {
+	var dict = make(map[int]struct{}, len(values))
+	for _, v := range values {
 		dict[v] = struct{}{}
 	}
-	var n = len(dict)
-	ints = ints[0:n]
+	var set = make([]int, len(dict))
 	var i = 0
 	for k := range dict {
-		ints[i] = k
+		set[i] = k
 		i += 1
 	}
-	*values = ints
-	return ints
+	return set
 }
