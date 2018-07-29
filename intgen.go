@@ -11,7 +11,7 @@ func (s *Igen) Next() int {
 	return cur
 }
 
-func NewIgenerator(start ...int) *Igen {
+func NewIgen(start ...int) *Igen {
 	var s int
 	if len(start) > 0 {
 		s = start[0]
