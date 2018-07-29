@@ -106,9 +106,9 @@ func TestGenerator(t *testing.T) {
 
 func TestIntGen(t *testing.T) {
 	g := goblin.Goblin(t)
-	g.Describe("IntGen", func() {
+	g.Describe("Igen", func() {
 		g.It("int generator", func() {
-			rg := NewIntGen(-5)
+			rg := NewIgenerator(-5)
 			var integers []int
 			g.Assert(rg.start).Equal(-5)
 			for i :=0 ; i < 11 ; i++ {

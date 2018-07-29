@@ -1,21 +1,22 @@
 package iter
 
-type IntGen struct {
+type Igen struct {
 	start   int
 	current int
 }
 
-func NewIntGen(start ...int) *IntGen {
+func (s *Igen) Next() int {
+	var cur = s.current
+	s.current++
+	return cur
+}
+
+func NewIgenerator(start ...int) *Igen {
 	var s int
 	if len(start) > 0 {
 		s = start[0]
 	}
-	return &IntGen{start: s, current: s}
-}
-func (gen *IntGen) Next() int {
-	var cur = gen.current
-	gen.current++
-	return cur
+	return &Igen{start: s, current: s}
 }
 
 //Integer Generator
@@ -27,7 +28,7 @@ type Generator struct {
 }
 
 func NewGenerator(args ...int) *Generator {
-	self := &Generator{}
+	var self = &Generator{}
 
 	if len(args) == 1 {
 		self.start, self.stop, self.step = 0, args[0], 1
