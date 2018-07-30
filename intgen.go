@@ -1,13 +1,20 @@
 package iter
 
+import (
+	"sync"
+)
+
 type Igen struct {
+	sync.RWMutex
 	start   int
 	current int
 }
 
 func (s *Igen) Next() int {
-	var cur = s.current
-	s.current++
+	s.Lock()
+		var cur = s.current
+		s.current += 1
+	s.Unlock()
 	return cur
 }
 
