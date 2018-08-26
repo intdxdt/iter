@@ -1,9 +1,9 @@
 package iter
 
 import (
-	"testing"
 	"github.com/franela/goblin"
 	"sort"
+	"testing"
 	"time"
 )
 

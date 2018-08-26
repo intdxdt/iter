@@ -12,8 +12,8 @@ type Igen struct {
 
 func (s *Igen) Next() int {
 	s.Lock()
-		var cur = s.current
-		s.current += 1
+	var cur = s.current
+	s.current += 1
 	s.Unlock()
 	return cur
 }
@@ -26,7 +26,7 @@ func NewIgen(start ...int) *Igen {
 	return &Igen{start: s, current: s}
 }
 
-//Integer Generator
+// Integer Generator
 type Generator struct {
 	start, stop, step, v int
 	HasNext              bool

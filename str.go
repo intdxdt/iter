@@ -20,4 +20,3 @@ func IntArrayString(values []int) string {
 	buffer.WriteString("]")
 	return buffer.String()
 }
-

@@ -1,9 +1,9 @@
 package iter
 
 import (
-	"testing"
 	"github.com/franela/goblin"
-	)
+	"testing"
+)
 
 func TestGenerator(t *testing.T) {
 	g := goblin.Goblin(t)
@@ -103,7 +103,6 @@ func TestGenerator(t *testing.T) {
 
 }
 
-
 func TestIntGen(t *testing.T) {
 	g := goblin.Goblin(t)
 	g.Describe("Igen", func() {
@@ -111,7 +110,7 @@ func TestIntGen(t *testing.T) {
 			rg := NewIgen(-5)
 			var integers []int
 			g.Assert(rg.start).Equal(-5)
-			for i :=0 ; i < 11 ; i++ {
+			for i := 0; i < 11; i++ {
 				integers = append(integers, rg.Next())
 			}
 			g.Assert(rg.current).Equal(6)
