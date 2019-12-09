@@ -13,7 +13,7 @@ type Igen struct {
 func (s *Igen) Next() int {
 	s.Lock()
 	var cur = s.current
-	s.current += 1
+	s.current++
 	s.Unlock()
 	return cur
 }
@@ -36,7 +36,6 @@ type Generator struct {
 
 func NewGenerator(args ...int) *Generator {
 	var self = &Generator{}
-
 	if len(args) == 1 {
 		self.start, self.stop, self.step = 0, args[0], 1
 	} else if len(args) == 2 {
@@ -77,17 +76,15 @@ func (gen *Generator) updateNext(v int) {
 func (gen *Generator) Val() int {
 	gen.v += gen.step
 
-	if (gen.step > 0 && gen.v >= gen.stop) ||
+	if  (gen.step > 0 && gen.v >= gen.stop) ||
 		(gen.step < 0 && gen.v <= gen.stop) {
 		panic("generator out of range")
 	}
 
 	gen.updateNext(gen.v + gen.step)
-
 	if gen.fromValues {
 		return gen.values[gen.v]
 	}
-
 	return gen.v
 }
 
