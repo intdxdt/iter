@@ -25,7 +25,20 @@ func TestGenerator(t *testing.T) {
 				g.Assert(gen.Val()).Equal(i)
 			}
 
-			gen = NewGenerator(0, 10)
+			gen = NewRange(10)
+			val, ok = gen.First()
+			g.Assert(ok).IsTrue()
+			g.Assert(val).Equal(0)
+
+			val, ok = gen.Last()
+			g.Assert(val).Equal(9)
+			g.Assert(ok).IsTrue()
+
+			for i := 0; gen.HasNext && i < 10; i++ {
+				g.Assert(gen.Val()).Equal(i)
+			}
+
+			gen = NewRange(0, 10)
 			val, ok = gen.First()
 			g.Assert(ok).IsTrue()
 			g.Assert(val).Equal(0)
@@ -37,7 +50,7 @@ func TestGenerator(t *testing.T) {
 				g.Assert(gen.Val()).Equal(i)
 			}
 
-			gen = NewGenerator(1, 10, 2)
+			gen = NewRange(1, 10, 2)
 			val, ok = gen.First()
 			g.Assert(ok).IsTrue()
 			g.Assert(val).Equal(1)
@@ -85,6 +98,10 @@ func TestGenerator(t *testing.T) {
 
 		g.It("int iter as values", func() {
 			var gen = NewGeneratorOfVals(rng...)
+			for i := 0; gen.HasNext; i++ {
+				g.Assert(gen.Val()).Equal(rng[i])
+			}
+			gen = NewRangeOfVals(rng...)
 			for i := 0; gen.HasNext; i++ {
 				g.Assert(gen.Val()).Equal(rng[i])
 			}

@@ -18,6 +18,10 @@ func (s *Igen) Next() int {
 	return cur
 }
 
+func NewInfRange(start ...int) *Igen {
+	return NewIgen(start...)
+}
+
 func NewIgen(start ...int) *Igen {
 	var s int
 	if len(start) > 0 {
@@ -26,12 +30,16 @@ func NewIgen(start ...int) *Igen {
 	return &Igen{start: s, current: s}
 }
 
-// Integer Generator
+// Generator - integer generator
 type Generator struct {
 	start, stop, step, v int
 	HasNext              bool
 	fromValues           bool
 	values               []int
+}
+
+func NewRange(args ...int) *Generator {
+	return NewGenerator(args...)
 }
 
 func NewGenerator(args ...int) *Generator {
@@ -47,6 +55,10 @@ func NewGenerator(args ...int) *Generator {
 	self.v = self.start - self.step
 	self.updateNext(self.start)
 	return self
+}
+
+func NewRangeOfVals(args ...int) *Generator {
+	return NewGeneratorOfVals(args...)
 }
 
 func NewGeneratorOfVals(args ...int) *Generator {
@@ -76,7 +88,7 @@ func (gen *Generator) updateNext(v int) {
 func (gen *Generator) Val() int {
 	gen.v += gen.step
 
-	if  (gen.step > 0 && gen.v >= gen.stop) ||
+	if (gen.step > 0 && gen.v >= gen.stop) ||
 		(gen.step < 0 && gen.v <= gen.stop) {
 		panic("generator out of range")
 	}
@@ -118,6 +130,5 @@ func (gen *Generator) Last() (int, bool) {
 
 func (gen *Generator) HasValues() bool {
 	diff := gen.stop - gen.start
-	return (diff != 0) && (
-		(diff < 0 && gen.step < 0) || (diff > 0 && gen.step > 0))
+	return (diff != 0) && ((diff < 0 && gen.step < 0) || (diff > 0 && gen.step > 0))
 }
