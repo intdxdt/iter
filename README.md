@@ -1,2 +1,2 @@
 # iter
-int generator for go
+Iter, Search, and Uniq. 

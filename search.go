@@ -5,7 +5,7 @@ import (
 	"sort"
 )
 
-// Sorted search of int(x) in a sorted slice
+// SortedSearchInts - Sorted search of int(x) in a sorted slice
 func SortedSearchInts(data []int, x int) bool {
 	var bln = false
 	var n = len(data) - 1
@@ -16,7 +16,7 @@ func SortedSearchInts(data []int, x int) bool {
 	return bln
 }
 
-// Sorted search of float64s(x) in a sorted slice
+// SortedSearchFloat64s - Sorted search of float64s(x) in a sorted slice
 func SortedSearchFloat64s(data []float64, x float64) bool {
 	var bln = false
 	var n = len(data) - 1
