@@ -58,6 +58,31 @@ func NewGenerator[T constraints.Signed](args ...T) *Generator[T] {
 	return self
 }
 
+func Range[T constraints.Integer](args ...T) []T {
+	var start, stop, step T
+	if len(args) == 1 {
+		start, stop, step = 0, args[0], 1
+	} else if len(args) == 2 {
+		start, stop, step = args[0], args[1], 1
+	} else if len(args) == 3 {
+		start, stop, step = args[0], args[1], args[2]
+	}
+
+	var results = make([]T, 0, 32)
+
+	if step > 0 {
+		for i := start; i < stop; i += step {
+			results = append(results, i)
+		}
+	} else {
+		for i := start; i > stop; i += step {
+			results = append(results, i)
+		}
+	}
+
+	return results
+}
+
 func NewRangeOfVals[T constraints.Signed](args ...T) *Generator[T] {
 	return NewGeneratorOfVals[T](args...)
 }

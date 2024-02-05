@@ -12,6 +12,7 @@ func TestGenerator(t *testing.T) {
 		var val int
 		var ok bool
 		g.It("int iter range", func() {
+
 			var gen = NewGenerator(10)
 			val, ok = gen.First()
 			g.Assert(ok).IsTrue()
@@ -94,6 +95,22 @@ func TestGenerator(t *testing.T) {
 			g.Assert(val).Equal(0)
 			g.Assert(ok).IsFalse()
 
+		})
+
+		g.It("int range as values", func() {
+			var values = Range[int]()
+			g.Assert(len(values) == 0).IsTrue()
+			var o1 = Range[uint](10)
+			g.Assert(len(o1) == 10).IsTrue()
+			var o2 = Range[uint](1, 10)
+			g.Assert(len(o2) == 9).IsTrue()
+			g.Assert([]uint{1, 2, 3, 4, 5, 6, 7, 8, 9}).Equal(o2)
+			var o3 = Range[uint](1, 10, 2)
+			g.Assert([]uint{1, 3, 5, 7, 9}).Equal(o3)
+			var o4 = Range[uint](1, 10, 3)
+			g.Assert([]uint{1, 4, 7}).Equal(o4)
+			var o5 = Range[int64](10, 1, -3)
+			g.Assert([]int64{10, 7, 4}).Equal(o5)
 		})
 
 		g.It("int iter as values", func() {
