@@ -1,16 +1,17 @@
 package iter
 
 import (
+	"golang.org/x/exp/constraints"
 	"sync"
 )
 
-type Igen struct {
+type Igen[T constraints.Signed] struct {
 	sync.RWMutex
-	start   int
-	current int
+	start   T
+	current T
 }
 
-func (s *Igen) Next() int {
+func (s *Igen[T]) Next() T {
 	s.Lock()
 	var cur = s.current
 	s.current++
@@ -18,32 +19,32 @@ func (s *Igen) Next() int {
 	return cur
 }
 
-func NewInfRange(start ...int) *Igen {
-	return NewIgen(start...)
+func NewInfRange[T constraints.Signed](start ...T) *Igen[T] {
+	return NewIgen[T](start...)
 }
 
-func NewIgen(start ...int) *Igen {
-	var s int
+func NewIgen[T constraints.Signed](start ...T) *Igen[T] {
+	var s T
 	if len(start) > 0 {
 		s = start[0]
 	}
-	return &Igen{start: s, current: s}
+	return &Igen[T]{start: s, current: s}
 }
 
 // Generator - integer generator
-type Generator struct {
-	start, stop, step, v int
+type Generator[T constraints.Signed] struct {
+	start, stop, step, v T
 	HasNext              bool
 	fromValues           bool
-	values               []int
+	values               []T
 }
 
-func NewRange(args ...int) *Generator {
-	return NewGenerator(args...)
+func NewRange[T constraints.Signed](args ...T) *Generator[T] {
+	return NewGenerator[T](args...)
 }
 
-func NewGenerator(args ...int) *Generator {
-	var self = &Generator{}
+func NewGenerator[T constraints.Signed](args ...T) *Generator[T] {
+	var self = &Generator[T]{}
 	if len(args) == 1 {
 		self.start, self.stop, self.step = 0, args[0], 1
 	} else if len(args) == 2 {
@@ -57,17 +58,17 @@ func NewGenerator(args ...int) *Generator {
 	return self
 }
 
-func NewRangeOfVals(args ...int) *Generator {
-	return NewGeneratorOfVals(args...)
+func NewRangeOfVals[T constraints.Signed](args ...T) *Generator[T] {
+	return NewGeneratorOfVals[T](args...)
 }
 
-func NewGeneratorOfVals(args ...int) *Generator {
-	self := &Generator{}
+func NewGeneratorOfVals[T constraints.Signed](args ...T) *Generator[T] {
+	self := &Generator[T]{}
 	self.values = args
 
 	if len(self.values) > 0 {
 		self.start = 0
-		self.stop = len(self.values)
+		self.stop = T(len(self.values))
 		self.step = 1
 	}
 
@@ -77,7 +78,7 @@ func NewGeneratorOfVals(args ...int) *Generator {
 	return self
 }
 
-func (gen *Generator) updateNext(v int) {
+func (gen *Generator[T]) updateNext(v T) {
 	if gen.step > 0 {
 		gen.HasNext = v < gen.stop
 	} else {
@@ -85,7 +86,7 @@ func (gen *Generator) updateNext(v int) {
 	}
 }
 
-func (gen *Generator) Val() int {
+func (gen *Generator[T]) Val() T {
 	gen.v += gen.step
 
 	if (gen.step > 0 && gen.v >= gen.stop) ||
@@ -100,22 +101,22 @@ func (gen *Generator) Val() int {
 	return gen.v
 }
 
-func (gen *Generator) Values() []int {
-	var vals = make([]int, 0)
+func (gen *Generator[T]) Values() []T {
+	var vals = make([]T, 0)
 	for gen.HasNext {
 		vals = append(vals, gen.Val())
 	}
 	return vals
 }
 
-func (gen *Generator) First() (int, bool) {
+func (gen *Generator[T]) First() (T, bool) {
 	if !(gen.HasValues()) {
 		return 0, false
 	}
 	return gen.start, true
 }
 
-func (gen *Generator) Last() (int, bool) {
+func (gen *Generator[T]) Last() (T, bool) {
 	if !(gen.HasValues()) {
 		return 0, false
 	}
@@ -128,7 +129,7 @@ func (gen *Generator) Last() (int, bool) {
 	return end, true
 }
 
-func (gen *Generator) HasValues() bool {
+func (gen *Generator[T]) HasValues() bool {
 	diff := gen.stop - gen.start
 	return (diff != 0) && ((diff < 0 && gen.step < 0) || (diff > 0 && gen.step > 0))
 }
